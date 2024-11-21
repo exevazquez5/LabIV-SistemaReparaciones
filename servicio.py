@@ -14,8 +14,15 @@ def leer_servicios(connection):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM servicio')
     results = cursor.fetchall()
+
+    # Encabezados de las columnas
+    print(f"{'ID':<5} {'Servicio':<25} {'Costo':<10}")
+    print("-" * 45)
+
     for row in results:
-        print(row)
+        # Formateamos y mostramos cada fila
+        id_servicio, nombre_servicio, costo_servicio = row
+        print(f"{id_servicio:<5} {nombre_servicio:<25} {costo_servicio:,.2f}")
 
 def actualizar_servicio(connection):
     cursor = connection.cursor()

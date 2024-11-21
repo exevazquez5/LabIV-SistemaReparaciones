@@ -149,8 +149,14 @@ def leer_dispositivos(connection):
     cursor.execute(query)
     results = cursor.fetchall()
     
+     # Encabezados de las columnas
+    print(f"{'ID Dispositivo':<15} {'Tipo':<12} {'Marca':<15} {'Modelo':<15} {'Cliente':<25}")
+    print("-" * 85)  # Línea de separación
+
     for row in results:
-        print(f'ID Dispositivo: {row[0]}, Tipo: {row[1]}, Marca: {row[2]}, Modelo: {row[3]}, Cliente: {row[4]} {row[5]}')
+        # Formatear la salida
+        id_dispositivo, tipo, marca, modelo, cliente_nombre, cliente_apellido = row
+        print(f"{id_dispositivo:<15} {tipo:<12} {marca:<15} {modelo:<15} {cliente_nombre} {cliente_apellido}")
 
 def actualizar_dispositivo(connection):
     cursor = connection.cursor()

@@ -107,6 +107,9 @@ def crear_reparacion(connection):
     else:
         fecha_fin = None
 
+    if fecha_fin == '':
+        fecha_fin = None  # Asegúrate de que se pase como NULL si está vacío
+
     costo_mano_obra = float(input('Ingrese el costo de mano de obra: '))
     costo_piezas = float(input('Ingrese el costo de las piezas: '))
 
@@ -136,22 +139,34 @@ def crear_reparacion(connection):
     cursor.execute("SELECT costoBase FROM servicio WHERE idServicio = %s", (servicio_id,))
     servicio_precio = cursor.fetchone()[0]
 
-    costo_total = costo_mano_obra + costo_piezas + servicio_precio
+    costo_total = float(costo_mano_obra) + float(costo_piezas) + float(servicio_precio)
 
     print(f"\nCosto Total: ${costo_total:,.2f}")
 
+    # Insertar en la tabla 'reparacion'
     query = ('INSERT INTO reparacion (estado, descripcion, fechaRegistro, fechaInicio, fechaFin, '
              'costoManoObra, costoPiezas, Dispositivo_idDispositivo, Tecnico_idTecnico) '
              'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)')
     
-    # Insertar registro en tabla intermedia
-    cursor.execute("INSERT INTO reparacion_has_servicio (Reparacion_idReparacion, Servicio_idServicio) VALUES (%s, %s)",
-                   (cursor.lastrowid, servicio_id))
-    
     cursor.execute(query, (estado, descripcion, fecha_registro, fecha_inicio, fecha_fin,
                            costo_mano_obra, costo_piezas, dispositivo_id, tecnico_id))
+    
+    # Confirmar la transacción para asegurar que se inserte el registro en 'reparacion'
     connection.commit()
-    print('Reparación insertada correctamente.')
+
+    # Verifica si se insertó correctamente
+    if cursor.lastrowid:
+        reparacion_id = cursor.lastrowid  # Obtiene el id de la reparación insertada
+    else:
+        print("Error: No se pudo obtener el ID de la reparación insertada.")
+        return
+
+    # Insertar solo los IDs en la tabla intermedia 'reparacion_has_servicio'
+    cursor.execute("INSERT INTO reparacion_has_servicio (Reparacion_idReparacion, Servicio_idServicio) "
+                   "VALUES (%s, %s)", (reparacion_id, servicio_id))
+    
+    connection.commit()  # Confirmar la transacción para 'reparacion_has_servicio'
+    print('Reparación insertada correctamente con el servicio asignado.')
 
 def leer_reparaciones(connection):
     cursor = connection.cursor()

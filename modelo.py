@@ -52,8 +52,12 @@ def leer_modelo(connection):
     cursor.execute('SELECT m.idModelo, m.nombre, ma.nombre FROM modelo m JOIN marca ma ON m.Marca_idMarca = ma.idMarca')
     results = cursor.fetchall()
 
+    print("Listado de Modelos:")
+    print("--------------------")
+    
     for row in results:
-        print(f'ID Modelo: {row[0]}, Nombre: {row[1]}, Marca: {row[2]}')
+        # Formato claro y legible
+        print(f"ID Modelo: {row[0]:<5} | Nombre: {row[1]:<20} | Marca: {row[2]}")
 
 def actualizar_modelo(connection):
     cursor = connection.cursor()

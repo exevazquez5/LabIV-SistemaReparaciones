@@ -2,8 +2,16 @@ def crear_cliente(connection):
     cursor = connection.cursor()
     nombre = input('Ingrese un nombre:')
     apellido = input('Ingrese un apellido:')
-    telefono = input('Ingrese un telefono:')
+
+    while True:
+        telefono = input('Ingrese un telefono: ')
+        if telefono.isdigit():  # Verifica si el teléfono contiene solo números
+            break
+        else:
+            print("Error: El teléfono solo debe contener números.")
+    
     direccion = input('Ingrese una direccion:')
+    
     # Crear la query
     query = ('INSERT INTO cliente (nombre, apellido, telefono, direccion) VALUES (%s, %s, %s, %s)')
     # Ejecutar la consulta de INSERT en la tabla cliente

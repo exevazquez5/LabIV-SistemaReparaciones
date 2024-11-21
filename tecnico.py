@@ -18,8 +18,15 @@ def leer_tecnicos(connection):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM tecnico')
     results = cursor.fetchall()
+    
+     # Encabezados de las columnas
+    print(f"{'ID':<5} {'DNI':<10} {'Nombre':<15} {'Apellido':<15} {'Telefono':<15} {'Direccion':<30}")
+    print("-" * 90)  # Línea de separación
+
     for row in results:
-        print(row)
+        # Formatear la salida
+        id_tecnico, dni, nombre, apellido, telefono, direccion = row
+        print(f"{id_tecnico:<5} {dni:<10} {nombre:<15} {apellido:<15} {telefono:<15} {direccion:<30}")
 
 def actualizar_tecnico(connection):
     cursor = connection.cursor()

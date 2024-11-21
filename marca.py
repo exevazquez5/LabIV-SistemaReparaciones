@@ -13,8 +13,13 @@ def leer_marcas(connection):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM marca')
     results = cursor.fetchall()
+    
+    print("Listado de Marcas:")
+    print("-------------------")
+    
     for row in results:
-        print(row)
+        # Asumiendo que row[0] es el ID y row[1] es el nombre de la marca
+        print(f"ID: {row[0]}, Marca: {row[1]}")
 
 def actualizar_marca(connection):
     cursor = connection.cursor()
