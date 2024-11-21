@@ -135,8 +135,7 @@ def leer_dispositivos(connection):
             d.tipoDispositivo, 
             m.nombre AS marca, 
             mo.nombre AS modelo, 
-            c.nombre AS cliente_nombre, 
-            c.apellido AS cliente_apellido
+            CONCAT(c.nombre, ' ', c.apellido) AS cliente
         FROM 
             dispositivo d
         JOIN 
@@ -149,14 +148,14 @@ def leer_dispositivos(connection):
     cursor.execute(query)
     results = cursor.fetchall()
     
-     # Encabezados de las columnas
+    # Encabezados de las columnas
     print(f"{'ID Dispositivo':<15} {'Tipo':<12} {'Marca':<15} {'Modelo':<15} {'Cliente':<25}")
     print("-" * 85)  # Línea de separación
 
     for row in results:
-        # Formatear la salida
-        id_dispositivo, tipo, marca, modelo, cliente_nombre, cliente_apellido = row
-        print(f"{id_dispositivo:<15} {tipo:<12} {marca:<15} {modelo:<15} {cliente_nombre} {cliente_apellido}")
+        # Desempaquetar los resultados
+        id_dispositivo, tipo, marca, modelo, cliente = row
+        print(f"{id_dispositivo:<15} {tipo:<12} {marca:<15} {modelo:<15} {cliente}")
 
 def actualizar_dispositivo(connection):
     cursor = connection.cursor()

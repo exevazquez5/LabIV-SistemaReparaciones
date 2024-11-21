@@ -26,10 +26,14 @@ def leer_clientes(connection):
     # Crear la query
     cursor.execute('SELECT * FROM cliente')
 
-    # Imprimir los resultados
     results = cursor.fetchall()
+
+    # Imprimir encabezados
+    print(f"{'ID':<5}{'Nombre':<15}{'Apellido':<15}{'Teléfono':<15}{'Dirección':<30}")
+    print("-" * 80)
+
     for row in results:
-        print(row)
+        print(f"{row[0]:<5}{row[1]:<15}{row[2]:<15}{row[3]:<15}{row[4]:<30}")
 
 def actualizar_cliente(connection):
     cursor = connection.cursor()

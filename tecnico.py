@@ -2,11 +2,47 @@ import mysql.connector
 
 def crear_tecnico(connection):
     cursor = connection.cursor()
-    dni = input('Ingrese el DNI del técnico:')
-    nombre = input('Ingrese el nombre del técnico:')
-    apellido = input('Ingrese el apellido del técnico:')
-    telefono = input('Ingrese el teléfono del técnico:')
-    direccion = input('Ingrese la dirección del técnico:')
+
+     # Validación para el DNI (número de 8 dígitos)
+    while True:
+        dni = input('Ingrese el DNI del técnico: ')
+        if dni.isdigit() and len(dni) == 8:
+            break
+        else:
+            print("El DNI debe ser un número de 8 dígitos.")
+
+     # Validación para el nombre (solo letras)
+    while True:
+        nombre = input('Ingrese el nombre del técnico: ')
+        if nombre.isalpha():
+            break
+        else:
+            print("El nombre solo puede contener letras.")
+
+    # Validación para el apellido (solo letras)
+    while True:
+        apellido = input('Ingrese el apellido del técnico: ')
+        if apellido.isalpha():
+            break
+        else:
+            print("El apellido solo puede contener letras.")
+
+    # Validación para el teléfono (número de 10 dígitos)
+    while True:
+        telefono = input('Ingrese el teléfono del técnico: ')
+        if telefono.isdigit():
+            break
+        else:
+            print("El teléfono debe ser un número valido.")
+
+    # Validación para la dirección (no puede estar vacía)
+    while True:
+        direccion = input('Ingrese la dirección del técnico: ')
+        if direccion.strip():
+            break
+        else:
+            print("La dirección no puede estar vacía.")
+
 
     query = ('INSERT INTO tecnico (dni, nombre, apellido, telefono, direccion) '
              'VALUES (%s, %s, %s, %s, %s)')

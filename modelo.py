@@ -10,7 +10,7 @@ def mostrar_opciones(cursor, tabla, campos):
     for resultado in resultados:
         if len(resultado) == 2:  # Para tablas con ID y nombre
             print(f"{resultado[0]:3d}. {resultado[1]}")
-        elif len(resultado) == 3:  # Para tabla Cliente
+        elif len(resultado) == 3:  # Para otras tablas
             print(f"{resultado[0]:3d}. {resultado[1]} {resultado[2]}")
     print("-" * 50)
     return resultados
